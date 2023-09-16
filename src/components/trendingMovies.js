@@ -1,0 +1,32 @@
+import {View, Text, useWindowDimensions} from 'react-native';
+import React from 'react';
+import Carousel from 'react-native-snap-carousel';
+import {useNavigation} from '@react-navigation/native';
+import MovieCard from './movieCard';
+
+export default function TrendingMovies({data}) {
+  const navigation = useNavigation();
+
+  const {width} = useWindowDimensions();
+
+  const handleClick = () => {
+    navigation.navigate('Movie');
+  };
+
+  return (
+    <View className="mb-8">
+      <Text className="text-black text-xl mx-4 mb-5">Trending</Text>
+      <Carousel
+        data={data}
+        renderItem={({item}) => (
+          <MovieCard item={item} handleClick={handleClick} />
+        )}
+        sliderWidth={width}
+        itemWidth={width * 0.62}
+        firstItem={1}
+        inactiveSlideOpacity={0.6}
+        slideStyle={{display: 'flex', alignItems: 'center'}}
+      />
+    </View>
+  );
+}
