@@ -10,6 +10,7 @@ import React from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {styles} from '../theme';
 import {useNavigation} from '@react-navigation/native';
+import {fallbackPoster} from '../api/moviedb';
 
 export default function MovieList({data, title, hideSeeAll}) {
   const navigation = useNavigation();
@@ -32,14 +33,17 @@ export default function MovieList({data, title, hideSeeAll}) {
         horizontal
         contentContainerStyle={{paddingHorizontal: '15'}}
         showsHorizontalScrollIndicator={false}>
-        {data?.map(item => {
+        {data?.map((item, index) => {
           return (
             <TouchableWithoutFeedback
+              key={index}
               onPress={() => navigation.navigate('Movie', item)}>
               <View className="space-y-1 mr-4">
                 <Image
                   source={{
-                    uri: `https://image.tmdb.org/t/p/w185${item.poster_path}`,
+                    uri: item?.poster_path
+                      ? `https://image.tmdb.org/t/p/w185${item.poster_path}`
+                      : fallbackPoster,
                   }}
                   style={{width: width * 0.33, height: height * 0.22}}
                   className="rounded-3xl"

@@ -9,8 +9,8 @@ export default function TrendingMovies({data}) {
 
   const {width} = useWindowDimensions();
 
-  const handleClick = () => {
-    navigation.navigate('Movie');
+  const handleClick = item => {
+    navigation.navigate('Movie', item);
   };
 
   return (
@@ -19,12 +19,12 @@ export default function TrendingMovies({data}) {
       <Carousel
         data={data}
         renderItem={({item}) => (
-          <MovieCard item={item} handleClick={handleClick} />
+          <MovieCard item={item} handleClick={() => handleClick(item)} />
         )}
-        sliderWidth={width}
-        itemWidth={width * 0.62}
         firstItem={1}
         inactiveSlideOpacity={0.6}
+        sliderWidth={width}
+        itemWidth={width * 0.62}
         slideStyle={{display: 'flex', alignItems: 'center'}}
       />
     </View>

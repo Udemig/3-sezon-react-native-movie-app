@@ -15,6 +15,7 @@ const MovieCard = ({item, handleClick}) => {
           uri: `https://www.themoviedb.org/t/p/w500/${item.poster_path}`,
         }}
         style={{width: width * 0.6, height: height * 0.4}}
+        className="rounded-3xl"
       />
     </TouchableWithoutFeedback>
   );
