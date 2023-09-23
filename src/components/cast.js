@@ -2,13 +2,16 @@ import {View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {fallbackPersonImage} from '../api/moviedb';
+import i18next from 'i18next';
 
 export default function Cast({cast}) {
   const navigation = useNavigation();
 
   return (
     <View className="my-6">
-      <Text className="text-neutral-900 text-lg mx-4 mb-5">Top Cast</Text>
+      <Text className="text-neutral-900 text-lg mx-4 mb-5">
+        {i18next.t('cast.topCast')}
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

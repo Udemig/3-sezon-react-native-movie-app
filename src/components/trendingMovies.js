@@ -3,6 +3,8 @@ import React from 'react';
 import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 import MovieCard from './movieCard';
+import i18n from 'i18next';
+
 
 export default function TrendingMovies({data}) {
   const navigation = useNavigation();
@@ -15,7 +17,9 @@ export default function TrendingMovies({data}) {
 
   return (
     <View className="mb-8">
-      <Text className="text-black text-xl mx-4 mb-5">Trending</Text>
+      <Text className="text-black text-xl mx-4 mb-5">
+        {i18n.t('home.trending')}
+      </Text>
       <Carousel
         data={data}
         renderItem={({item}) => (

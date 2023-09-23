@@ -11,6 +11,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {styles} from '../theme';
 import {useNavigation} from '@react-navigation/native';
 import {fallbackPoster} from '../api/moviedb';
+import i18 from 'i18next';
 
 export default function MovieList({data, title, hideSeeAll}) {
   const navigation = useNavigation();
@@ -24,7 +25,7 @@ export default function MovieList({data, title, hideSeeAll}) {
         {!hideSeeAll && (
           <TouchableOpacity>
             <Text style={styles.text} className="text-lg">
-              See all
+              {i18.t('common.seeAll')}
             </Text>
           </TouchableOpacity>
         )}

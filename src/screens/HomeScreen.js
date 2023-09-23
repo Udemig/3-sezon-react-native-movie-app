@@ -12,6 +12,7 @@ import {
   fetchTrendingMovies,
   fetchUpComingMovies,
 } from '../api/moviedb';
+import i18n from 'i18next';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -65,6 +66,9 @@ export default function HomeScreen() {
           <Text className="text-neutral-800 text-3xl font-bold">
             <Text style={styles.text}>U</Text>demig
           </Text>
+          <TouchableOpacity onPress={() => i18n.changeLanguage('tr')}>
+            <Text>Change Language</Text>
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Search')}>
             <MagnifyingGlassIcon size="30" strokeWidth={2} color={'black'} />
           </TouchableOpacity>
@@ -80,12 +84,12 @@ export default function HomeScreen() {
 
           <View className="ml-4">
             {upComing.length > 0 && (
-              <MovieList title="Upcoming" data={upComing} />
+              <MovieList title={i18n.t('home.upcoming')} data={upComing} />
             )}
 
             {/* top rated movies row */}
             {topRated.length > 0 && (
-              <MovieList title="Top Rated" data={topRated} />
+              <MovieList title={i18n.t('home.topRated')} data={topRated} />
             )}
           </View>
         </ScrollView>

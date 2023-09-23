@@ -21,6 +21,7 @@ import {
   fetchSimilarMovies,
 } from '../api/moviedb';
 import Loading from '../components/loading';
+import i18next from 'i18next';
 
 const topMargin = Platform.OS === 'ios' ? '' : 'mt-3';
 
@@ -147,7 +148,7 @@ export default function MovieScreen() {
 
         {movie?.id && similar.length > 0 && (
           <MovieList
-            title={'Similar Moview'}
+            title={i18next.t('movie.similarMoview')}
             hideSeeAll={false}
             data={similar}
           />
