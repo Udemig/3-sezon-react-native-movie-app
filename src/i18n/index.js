@@ -2,16 +2,14 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {resources} from './resources';
 import {I18nManager} from 'react-native';
-import {language} from '../store/appSettings';
+import {getLocales} from 'react-native-localize';
 
-const default_language = 'en';
-
-const activeLanguage = language;
+const default_language = getLocales()[0].languageCode;
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: activeLanguage,
-  fallbackLng: default_language,
+  lng: default_language,
+  fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
   },
