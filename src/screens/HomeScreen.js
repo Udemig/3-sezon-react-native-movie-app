@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from '../theme';
@@ -6,24 +6,28 @@ import {useNavigation} from '@react-navigation/native';
 import Loading from '../components/loading';
 import TrendingMovies from '../components/trendingMovies';
 import MovieList from '../components/movieList';
-import {MagnifyingGlassIcon} from 'react-native-heroicons/outline';
+import {
+  MagnifyingGlassIcon,
+  LanguageIcon,
+} from 'react-native-heroicons/outline';
 import {
   fetchTopRatedMovies,
   fetchTrendingMovies,
   fetchUpComingMovies,
 } from '../api/moviedb';
 import i18n from 'i18next';
+import useAppSettings from '../store/appSettings';
+import useMovie from '../store/movie';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(true);
+  const {language, loading, setLanguage, setLoading} = useAppSettings(
+    state => state,
+  );
 
-  const [trending, setTrending] = useState();
-
-  const [upComing, setUpComing] = useState([]);
-
-  const [topRated, setTopRated] = useState([]);
+  const {trending, setTrending, upComing, setUpComing, topRated, setTopRated} =
+    useMovie(state => state);
 
   const getTrendingMovies = async () => {
     const data = await fetchTrendingMovies();
@@ -50,6 +54,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     try {
+      setLoading(true);
       getTrendingMovies();
       getUpComingMovies();
       getTopRatedMovies();
@@ -59,6 +64,24 @@ export default function HomeScreen() {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      setLoading(true);
+      getTrendingMovies();
+      getUpComingMovies();
+      getTopRatedMovies();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  }, [language]);
+
+  const changeLanguage = () => {
+    const newLanguage = language === 'en' ? 'tr' : 'en';
+    setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
+  };
+
   return (
     <View className="flex bg-white">
       <SafeAreaView className={Platform.OS === 'ios' ? '-mb-2' : 'mb-3'}>
@@ -66,12 +89,14 @@ export default function HomeScreen() {
           <Text className="text-neutral-800 text-3xl font-bold">
             <Text style={styles.text}>U</Text>demig
           </Text>
-          <TouchableOpacity onPress={() => i18n.changeLanguage('tr')}>
-            <Text>Change Language</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-            <MagnifyingGlassIcon size="30" strokeWidth={2} color={'black'} />
-          </TouchableOpacity>
+          <View className="flex-row justify-between items-center">
+            <TouchableOpacity onPress={() => changeLanguage()}>
+              <LanguageIcon size="30" strokeWidth={2} color={'black'} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+              <MagnifyingGlassIcon size="30" strokeWidth={2} color={'black'} />
+            </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
       {loading ? (

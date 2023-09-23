@@ -15,11 +15,12 @@ import {useNavigation} from '@react-navigation/native';
 import {XMarkIcon} from 'react-native-heroicons/outline';
 import {fallbackPoster, searchMovies} from '../api/moviedb';
 import {debounce} from 'lodash';
+import useAppSettings, {language} from '../store/appSettings';
 
 export default function SearchScreen() {
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(false);
+  const {loading, setLoading} = useAppSettings(state => state);
 
   const {width, height} = useWindowDimensions();
 
@@ -27,11 +28,13 @@ export default function SearchScreen() {
 
   const handleSearch = search => {
     if (search && search.length > 2) {
+      const languageRegion = language === 'tr' ? 'tr-TR' : 'en-US';
+
       setLoading(true);
       searchMovies({
         query: search,
         include_adult: false,
-        language: 'en-US',
+        language: languageRegion,
         page: 1,
       })
         .then(data => {

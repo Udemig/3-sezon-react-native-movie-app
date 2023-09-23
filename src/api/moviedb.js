@@ -1,35 +1,45 @@
 import axios from 'axios';
 import {apiKey} from '../constants';
+import {language} from '../store/appSettings';
 
 const apiBaseUrl = 'https://api.themoviedb.org/3';
 
-const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
-const upComingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
-const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
+console.warn('Language', language);
+
+const languageRegion = language === 'tr' ? 'tr-TR' : 'en-US';
+
+const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}&language=${languageRegion}`;
+const upComingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}&language=${languageRegion}`;
+const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}&language=${languageRegion}`;
 const searchMoviesEndpoint = `${apiBaseUrl}/search/movie?api_key=${apiKey}`;
 
 //movie
 
 const movieDetailsEndpoint = id =>
-  `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
+  `${apiBaseUrl}/movie/${id}?api_key=${apiKey}&language=${languageRegion}`;
 
 const similarMoviesEndpoint = id =>
-  `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+  `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}&language=${languageRegion}`;
 
 const movieCreditsEndpoint = id =>
-  `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
+  `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}&language=${languageRegion}`;
 
 const personDetailEndpoint = id =>
-  `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
+  `${apiBaseUrl}/person/${id}?api_key=${apiKey}&language=${languageRegion}`;
 
 const personMoviesEndpoint = id =>
-  `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
+  `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}&language=${languageRegion}`;
 
 const apiCall = async (endpoint, params) => {
   const options = {
     method: 'GET',
     url: endpoint,
     params: params || {},
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer 80f05dc9ef26f24dfdcdcda23fd08741',
+    },
+    // Authorization: `Bearer ${apiKey}`,
   };
 
   try {

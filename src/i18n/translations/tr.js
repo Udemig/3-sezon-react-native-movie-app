@@ -8,6 +8,7 @@ const tr = {
     seeAll: 'Hepsini Gör',
   },
   movie: {
+    title: 'Filmler',
     similarMoview: 'Benzer Filmler',
   },
   cast: {topCast: 'En İyi Cast'},

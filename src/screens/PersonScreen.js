@@ -18,19 +18,25 @@ import {theme} from '../theme';
 import Loading from '../components/loading';
 import {fetchPersonDetails, fetchPersonMovies} from '../api/moviedb';
 import MovieList from '../components/movieList';
+import useMovie from '../store/movie';
+import useAppSettings from '../store/appSettings';
+import i18next from 'i18next';
+import {isRTL} from '../i18n';
 
 export default function PersonScreen() {
   const {params: item} = useRoute();
+
+  const {loading, setLoading} = useAppSettings(state => state);
 
   const navigation = useNavigation();
 
   const {width, height} = useWindowDimensions();
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const {personMovies, setPersonMovies, person, setPerson} = useMovie(
+    state => state,
+  );
 
-  const [loading, setLoading] = useState(true);
-  const [person, setPerson] = useState({});
-  const [personMovies, setPersonMovies] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const getPersonDetails = async id => {
     const data = await fetchPersonDetails(id);
@@ -50,12 +56,16 @@ export default function PersonScreen() {
   };
 
   useEffect(() => {
+    setLoading(true);
     getPersonDetails(item?.id);
     getPersonMovies(item?.id);
   }, [item]);
 
   return (
-    <ScrollView className="flex-1 bg-white">
+    <ScrollView
+      className="flex-1 bg-white"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{paddingBottom: 25}}>
       <SafeAreaView
         className={
           'absolute z-20 w-full flex-row justify-between items-center px-4' +
@@ -101,24 +111,30 @@ export default function PersonScreen() {
           </View>
           <View className="mx-3 p-4 mt-6 flex-row justify-between items-center bg-yellow-500 rounded-full">
             <View className="border-r-2 border-r-neutral-900 px-2 items-center">
-              <Text className="text-neutral-900 font-semibold ">Gender</Text>
+              <Text className="text-neutral-900 font-semibold ">
+                {i18next.t('person.gender')}
+              </Text>
               <Text className="text-white text-sm">
                 {person?.gender == 1 ? 'Female' : 'Male'}
               </Text>
             </View>
             <View className="border-r-2 border-r-neutral-900 px-2 items-center">
-              <Text className="text-neutral-900 font-semibold ">Birthday</Text>
+              <Text className="text-neutral-900 font-semibold ">
+                {i18next.t('person.birthday')}
+              </Text>
               <Text className="text-white text-sm">{person?.birthday}</Text>
             </View>
             <View className="border-r-2 border-r-neutral-900 px-2 items-center">
-              <Text className="text-neutral-900 font-semibold ">known for</Text>
+              <Text className="text-neutral-900 font-semibold ">
+                {i18next.t('person.knownFor')}
+              </Text>
               <Text className="text-white text-sm">
                 {person?.known_for_department}
               </Text>
             </View>
             <View className="px-2 items-center">
               <Text className="text-neutral-900 font-semibold ">
-                Popularity
+                {i18next.t('person.popularity')}
               </Text>
               <Text className="text-white text-sm">
                 {person?.popularity?.toFixed(2)}
@@ -128,14 +144,22 @@ export default function PersonScreen() {
 
           {person?.biography && (
             <View className="my-6 mx-4 space-y-2">
-              <Text className="text-neutral-900 text-lg">Biography</Text>
+              <Text className="text-neutral-900 text-lg">
+                {i18next.t('person.biography')}
+              </Text>
               <Text className="text-neutral-400 tracking-wide">
                 {person?.biography}
               </Text>
             </View>
           )}
           {person?.id && personMovies?.length > 0 && (
-            <MovieList title="Movies" hideSeeAll data={personMovies} />
+            <View className="my-6 ml-4 space-y-2">
+              <MovieList
+                title={i18next.t('movie.title')}
+                hideSeeAll
+                data={personMovies}
+              />
+            </View>
           )}
         </View>
       )}

@@ -8,6 +8,7 @@ const en = {
     seeAll: 'See all',
   },
   movie: {
+    title: 'Movies',
     similarMoview: 'Similar Moview',
   },
   cast: {topCast: 'Top Cast'},

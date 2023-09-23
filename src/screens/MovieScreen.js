@@ -4,7 +4,6 @@ import {
   ScrollView,
   Image,
   useWindowDimensions,
-  Button,
   TouchableOpacity,
   Platform,
 } from 'react-native';
@@ -22,22 +21,23 @@ import {
 } from '../api/moviedb';
 import Loading from '../components/loading';
 import i18next from 'i18next';
+import useMovie from '../store/movie';
+import useAppSettings from '../store/appSettings';
 
 const topMargin = Platform.OS === 'ios' ? '' : 'mt-3';
 
 export default function MovieScreen() {
-  const [movie, setMovie] = useState({});
-  const [cast, setCast] = useState([]);
+  const {movie, setMovie, cast, setCast, similar, setSimilar} = useMovie(
+    state => state,
+  );
+
+  const {setLoading, loading} = useAppSettings();
 
   const {params: item} = useRoute();
 
   const navigation = useNavigation();
 
   const {width, height} = useWindowDimensions();
-
-  const [similar, setSimilar] = useState([]);
-
-  const [loading, setLoading] = useState(true);
 
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -132,7 +132,7 @@ export default function MovieScreen() {
               let showDot = index + 1 != movie?.genres.length;
 
               return (
-                <Text className="text-neutral-400 font-semibold text-base text-center">
+                <Text className="text-neutral-400 font-semibold text-base text-center" key={index}>
                   {genre?.name} {showDot ? '•' : null}
                 </Text>
               );
