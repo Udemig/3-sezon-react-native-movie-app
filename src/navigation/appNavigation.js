@@ -7,6 +7,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import MovieScreen from '../screens/MovieScreen';
 import PersonScreen from '../screens/PersonScreen';
 import SearchScreen from '../screens/SearchScreen';
+import TodosScreen from '../screens/TodosScreen';
 import {StatusBar} from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -20,8 +21,9 @@ export default function AppNavigation() {
         barStyle={'dark-content'}
       />
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="TodosScreen" component={TodosScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Movie" component={MovieScreen} />
         <Stack.Screen name="Person" component={PersonScreen} />
