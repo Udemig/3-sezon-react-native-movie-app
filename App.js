@@ -8,6 +8,8 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useEffect(() => {
+    // Background Processing
+
     SplashScreen.hide();
   }, []);
 

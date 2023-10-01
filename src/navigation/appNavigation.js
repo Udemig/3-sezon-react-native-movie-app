@@ -21,9 +21,9 @@ export default function AppNavigation() {
         barStyle={'dark-content'}
       />
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="TodosScreen" component={TodosScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="TodosScreen" component={TodosScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Movie" component={MovieScreen} />
         <Stack.Screen name="Person" component={PersonScreen} />
